@@ -2,18 +2,28 @@
 const { MOVEMENTS, MESSAGES } = require('./constants');
 
 let connection;
+let direction;
+let prevDirection;
 
 const handleUserInput = (data) => {
   if (data === '\u0003') {
     process.exit();
   }
+  data = data.toLowerCase();
+  
+  if (MOVEMENTS[data]) {
+    if (MOVEMENTS[data].opposite === prevDirection) {
+      return;
+    }
+    clearInterval(direction);
 
-  if (MOVEMENTS[data.toLowerCase()]) {
-    connection.write(`Move: ${MOVEMENTS[data.toLowerCase()]}`);
+    direction = setInterval(() => {
+      connection.write(`Move: ${MOVEMENTS[data].direction}`);
+    }, 100);
+    prevDirection = MOVEMENTS[data].direction;
   }
-
-  if (MESSAGES[data.toLowerCase()]) {
-    connection.write(`Say: ${MESSAGES[data.toLowerCase()]}`);
+  if (MESSAGES[data]) {
+    connection.write(`Say: ${MESSAGES[data]}`);
   }
 };
 
