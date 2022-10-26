@@ -1,4 +1,5 @@
-const { connect } = require("http2");
+//const { connect } = require("http2");
+const { MOVEMENTS, MESSAGES } = require('./constants');
 
 let connection;
 
@@ -7,31 +8,16 @@ const handleUserInput = (data) => {
     process.exit();
   }
 
-  switch (data) {
-  case 'w':
-    connection.write('Move: up');
-    break;
-  case 'a':
-    connection.write('Move: left');
-    break;
-  case 's':
-    connection.write('Move: down');
-    break;
-  case 'd':
-    connection.write('Move: right');
-    break;
-  case 'q':
-    connection.write("Say: it's mine!");
-    break;
-  case 'e':
-    connection.write('Say: winner');
-    break;
-  case 'x':
-    connection.write('Say: suckers!');
-    break;
+  if (MOVEMENTS[data.toLowerCase()]) {
+    connection.write(`Move: ${MOVEMENTS[data.toLowerCase()]}`);
   }
 
+  if (MESSAGES[data.toLowerCase()]) {
+    connection.write(`Say: ${MESSAGES[data.toLowerCase()]}`);
+  }
 };
+
+
 
 const setupInput = (conn) => {
   connection = conn;
