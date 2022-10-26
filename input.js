@@ -20,6 +20,15 @@ const handleUserInput = (data) => {
   case 'd':
     connection.write('Move: right');
     break;
+  case 'q':
+    connection.write("Say: it's mine!");
+    break;
+  case 'e':
+    connection.write('Say: winner');
+    break;
+  case 'x':
+    connection.write('Say: suckers!');
+    break;
   }
 
 };
